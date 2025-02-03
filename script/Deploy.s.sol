@@ -1,13 +1,12 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.28 <0.9.0;
 
-import { Foo } from "../src/Foo.sol";
+import { OneOnOne } from "../src/OneOnOne.sol";
 
 import { BaseScript } from "./Base.s.sol";
 
-/// @dev See the Solidity Scripting tutorial: https://book.getfoundry.sh/tutorials/solidity-scripting
 contract Deploy is BaseScript {
-    function run() public broadcast returns (Foo foo) {
-        foo = new Foo();
+    function run() public broadcast returns (OneOnOne oneOnOne) {
+        oneOnOne = new OneOnOne();
     }
 }

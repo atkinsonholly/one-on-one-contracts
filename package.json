@@ -1,13 +1,14 @@
 {
-  "name": "@prb/foundry-template",
-  "description": "Foundry-based template for developing Solidity smart contracts",
+  "name": "one-on-one",
+  "description": "Agentic Ethereum Hackathon demo project",
   "version": "1.0.0",
   "author": {
-    "name": "Paul Razvan Berg",
-    "url": "https://github.com/PaulRBerg"
+    "name": "Holly Atkinson",
+    "url": "https://github.com/atkinsonholly"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.1"
+    "@openzeppelin/contracts": "^5.0.1",
+    "solady": "git@github.com:Vectorized/solady.git"
   },
   "devDependencies": {
     "forge-std": "github:foundry-rs/forge-std#v1.8.1",
@@ -21,7 +22,8 @@
     "foundry",
     "smart-contracts",
     "solidity",
-    "template"
+    "nft",
+    "erc721"
   ],
   "private": true,
   "scripts": {
