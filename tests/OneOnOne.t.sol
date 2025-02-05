@@ -43,4 +43,16 @@ contract OneOnOneTest is OneOnOne, Test {
         vm.expectRevert(AccountBalanceNotZero.selector);
         oneOnOne.mintWithETH(owner);
     }
+
+    function testCannotExceedMintingLimit() public {
+        address owner = address(1337);
+
+        // Set the counter to 10
+        // See https://book.getfoundry.sh/cheatcodes/store
+        vm.store(address(oneOnOne), bytes32(uint256(0)), bytes32(uint256(10)));
+        assertEq(oneOnOne.counter(), 10);
+
+        vm.expectRevert(ExceedsMintingLimit.selector);
+        oneOnOne.mintWithETH(owner);
+    }
 }

@@ -14,7 +14,13 @@ contract OneOnOne is ERC721, Ownable {
     /// @dev The recipient's balance must be zero.
     error AccountBalanceNotZero();
 
-    uint256 tokenId;
+    /// @dev The minting limit must not be exceeded.
+    error ExceedsMintingLimit();
+
+    uint256 public counter;
+
+    /// @dev Minting limit for demo.
+    uint256 private constant _MAX_MINT = 10;
 
     /// @dev Taken directly from ERC721 and included here for readability.
     uint256 private constant _ERC721_MASTER_SLOT_SEED = 0x7d8825530a5a2e7a << 192;
@@ -42,15 +48,21 @@ contract OneOnOne is ERC721, Ownable {
             }
         }
         assembly {
-            // TODO: revert if tokenId to be minted > [10]
-            // Read from counter
-            // Revert if (counter + 1) equals limit
+            // Read `counter`.
+            let counterSlot := sload(counter.slot)
+
+            // Token `id` to be minted = `counter` + 1.
+            // Revert if `id` > minting limit.
+            if gt(add(counterSlot, 1), _MAX_MINT) {
+                mstore(0x00, 0x383196b7) // `ExceedsMintingLimit()`.
+                revert(0x1c, 0x04)
+            }
         }
         assembly {
             // TODO: revert if ETH value is not enough
         }
         // TODO: ETH transfer
-        _mint(to, tokenId +=1); // TODO: check counter is safe
+        _mint(to, counter +=1); // TODO: check counter is safe
     }
 
     /// @dev Burn token `id`.
