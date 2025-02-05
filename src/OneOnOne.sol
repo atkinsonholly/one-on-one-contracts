@@ -15,6 +15,7 @@ contract OneOnOne is ERC721, Ownable {
     error AccountBalanceNotZero();
 
     uint256 tokenId;
+    uint256 private constant _ERC721_MASTER_SLOT_SEED = 0x7d8825530a5a2e7a << 192;
 
     /// @dev Mint a token with `tokenId` to address `to`.
     /// @dev Requires ETH value greater than or equal to 0.001 ETH.
@@ -24,6 +25,7 @@ contract OneOnOne is ERC721, Ownable {
         address to
     ) external {
         assembly {
+            mstore(0x1c, _ERC721_MASTER_SLOT_SEED)
             mstore(0x00, to)
             let toBalanceSlot := keccak256(0x0c, 0x1c)
             let toBalanceSlotPacked := sload(toBalanceSlot)

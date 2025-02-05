@@ -35,4 +35,12 @@ contract OneOnOneTest is OneOnOne, Test {
         assertEq(oneOnOne.balanceOf(owner), 1);
         assertEq(oneOnOne.ownerOf(1), owner);
     }
+
+    function testCannotExceedBalaceOfOne() public {
+        address owner = address(1337);
+        oneOnOne.mintWithETH(owner);
+
+        vm.expectRevert(AccountBalanceNotZero.selector);
+        oneOnOne.mintWithETH(owner);
+    }
 }
