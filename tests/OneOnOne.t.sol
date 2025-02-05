@@ -21,9 +21,6 @@ contract OneOnOneTest is OneOnOne, Test {
         assertEq(oneOnOne.symbol(), "1o1", "symbol mismatch");
     }
 
-    // should pass with 0 NFT balance, valid to and sufficient ETH
-    // should revert with to == zeroaddress
-    // should revert if balanceOf(to) > 0
     // should revert if not enough ETH sent
     function testMintWithETH() public {
         address owner = address(1337);
@@ -54,5 +51,10 @@ contract OneOnOneTest is OneOnOne, Test {
 
         vm.expectRevert(ExceedsMintingLimit.selector);
         oneOnOne.mintWithETH(owner);
+    }
+
+    function testCannotMintToZeroAddress() public {
+        vm.expectRevert(TransferToZeroAddress.selector);
+        oneOnOne.mintWithETH(address(0));
     }
 }
