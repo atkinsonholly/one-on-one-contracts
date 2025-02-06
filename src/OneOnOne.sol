@@ -76,6 +76,7 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
         _mint(to, counter +=1);
     }
 
+    /// @dev Owner can transfer eth balance of contract.
     function retrieveETH(address payable beneficiary) onlyOwner nonReentrant external {
         beneficiary.transfer(address(this).balance);
     }
