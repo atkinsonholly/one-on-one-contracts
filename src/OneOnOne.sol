@@ -7,9 +7,11 @@ pragma solidity >=0.8.28;
 import { ERC721 } from "solady/contracts/tokens/ERC721.sol";
 import { Ownable } from "solady/contracts/auth/Ownable.sol";
 import { LibString } from "solady/contracts/utils/LibString.sol";
+import { ReentrancyGuard } from "solady/contracts/utils/ReentrancyGuard.sol";
 
+/// @notice ERC721 contract with AI-infused metadata.
 /// @dev Absolutely not production-ready code here.
-contract OneOnOne is ERC721, Ownable {
+contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
 
     /// @dev The recipient's balance must be zero.
     error AccountBalanceNotZero();
@@ -17,10 +19,16 @@ contract OneOnOne is ERC721, Ownable {
     /// @dev The minting limit must not be exceeded.
     error ExceedsMintingLimit();
 
+    /// @dev The minting price must be paid.
+    error NotEnoughETH();
+
     uint256 public counter;
 
     /// @dev Minting limit for demo.
     uint256 private constant _MAX_MINT = 10;
+
+    /// @dev Minting price for demo 0.001 ETH.
+    uint256 private constant _PRICE = 1000000000000000;
 
     /// @dev Taken directly from ERC721 and included here for readability.
     uint256 private constant _ERC721_MASTER_SLOT_SEED = 0x7d8825530a5a2e7a << 192;
@@ -28,11 +36,10 @@ contract OneOnOne is ERC721, Ownable {
     /// @dev Mint a token with `tokenId` to address `to`.
     /// @dev Requires ETH value greater than or equal to 0.001 ETH.
     /// @dev Requires that `to` does not already own a OneOnOne NFT.
-    /// @dev Requires token id to be minted is within the limit.
-    // TODO: non-reentrant
+    /// @dev Limited to a small number of NFTs for demo.
     function mintWithETH(
         address to
-    ) external {
+    ) external payable nonReentrant {
         assembly {
             // Read balance of `to`.
             // Refer to ERC721 bits layout.
@@ -59,10 +66,18 @@ contract OneOnOne is ERC721, Ownable {
             }
         }
         assembly {
-            // TODO: revert if ETH value is not enough
+            // Read msg.value.
+            // Revert if ETH value < price.
+            if lt(callvalue(), _PRICE) {
+                mstore(0x00, 0x583aa026) // `NotEnoughETH`.
+                revert(0x1c, 0x04)
+            }
         }
-        // TODO: ETH transfer
-        _mint(to, counter +=1); // TODO: check counter is safe
+        _mint(to, counter +=1);
+    }
+
+    function retrieveETH(address payable beneficiary) onlyOwner nonReentrant external {
+        beneficiary.transfer(address(this).balance);
     }
 
     /// @dev Burn token `id`.
