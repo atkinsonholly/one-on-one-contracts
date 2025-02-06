@@ -37,10 +37,9 @@ contract OneOnOneTest is OneOnOne, Test {
         assertEq(oneOnOne.ownerOf(1), owner1);
     }
 
-    // TODO: fix
     function testExists() public {
         oneOnOne.mintWithETH{value: 0.001 ether}(owner1);
-        assertTrue(exists(1));
+        assertTrue(oneOnOne.exists(1));
     }
 
     function testCannotExceedBalaceOfOne() public {
