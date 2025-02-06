@@ -1,0 +1,25 @@
+{
+  "name": "Hope",
+  "description": "A compassionate humanitarian dedicated to making the world a kinder place.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Brown"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Generous"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Halo"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/183e3fcd-89c2-09a4-b11d-6a85347f280e"
+}

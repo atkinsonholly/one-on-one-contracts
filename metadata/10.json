@@ -1,0 +1,25 @@
+{
+  "name": "Nomad",
+  "description": "A wanderlust-driven traveler with a passion for discovering the world's hidden gems.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Brown"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Blue"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Adventurous"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Reflective"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/cb22efe2-13db-03b9-982a-889a580e68d7 "
+}

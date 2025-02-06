@@ -1,0 +1,25 @@
+{
+  "name": "Coach Stone",
+  "description": "A passionate sports coach known for his relentless drive and motivational spirit.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Pink"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Brown"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Motivational"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Inspiring"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/cc09ef37-d1f5-0d1e-8074-8fe969a63831"
+}

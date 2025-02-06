@@ -1,0 +1,25 @@
+{
+  "name": "Linda",
+  "description": "A resourceful and loving stay-at-home mom who masters the art of balancing family and creativity.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Purple"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Nurturing"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Warm"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/4b971c38-3f88-0081-b787-088db1cfe07f"
+}

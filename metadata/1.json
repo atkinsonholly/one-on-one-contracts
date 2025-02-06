@@ -1,0 +1,25 @@
+{
+  "name": "Aurora",
+  "description": "A free-spirited artist, blending digital code with traditional brushstrokes.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Blue"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Bohemian"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Vibrant"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/eeee9b76-ec5d-0cfa-a7c5-11f2def4981c"
+}

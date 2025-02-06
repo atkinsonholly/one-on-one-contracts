@@ -1,0 +1,25 @@
+{
+  "name": "Dr. Newton",
+  "description": "A brilliant scientist with a passion for discovery and a mind attuned to the mysteries of the universe.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Blue"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Analytical"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Clear"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/7b72ff28-35b4-058a-8a32-fb1c22c4e96d"
+}

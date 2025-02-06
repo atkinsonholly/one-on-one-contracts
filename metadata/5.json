@@ -1,0 +1,25 @@
+{
+  "name": "Pixel",
+  "description": "A hardcore gamer with a deep love for virtual adventures and retro classics.",
+  "external_url": "",
+  "image": "https://example.com/image.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Yellow"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Blue"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Playful"
+    },
+    {
+      "trait_type": "Aura",
+      "value": "Quirky"
+    }
+  ],
+  "agent_url": "http://ec2-18-156-78-210.eu-central-1.compute.amazonaws.com/chat/e51f224d-70d3-0f8c-90d5-e456b6ab9822"
+}
