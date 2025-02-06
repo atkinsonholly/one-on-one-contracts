@@ -10,12 +10,14 @@ contract OneOnOneTest is OneOnOne, Test {
     OneOnOne internal oneOnOne;
     address owner1;
     address owner2;
+    address payable owner3;
     address payable admin;
 
     function setUp() public virtual {
         oneOnOne = new OneOnOne();
         owner1 = address(1);
         owner2 = address(2);
+        owner3 = payable(address(2));
         admin = payable(address(3));
         deal(owner1, 10e18);
     }
@@ -32,6 +34,15 @@ contract OneOnOneTest is OneOnOne, Test {
         vm.expectEmit(true, true, true, true);
         emit Transfer(address(0), owner1, 1);
         oneOnOne.mintWithETH{value: 0.001 ether}(owner1);
+
+        assertEq(oneOnOne.balanceOf(owner1), 1);
+        assertEq(oneOnOne.ownerOf(1), owner1);
+    }
+
+    function testMintWithETH2() public {
+        vm.expectEmit(true, true, true, true);
+        emit Transfer(address(0), owner1, 1);
+        oneOnOne.mintWithETH{value: 0.002 ether}(owner1);
 
         assertEq(oneOnOne.balanceOf(owner1), 1);
         assertEq(oneOnOne.ownerOf(1), owner1);
@@ -87,5 +98,13 @@ contract OneOnOneTest is OneOnOne, Test {
         vm.prank(owner());
         oneOnOne.retrieveETH(admin);
         assertEq(admin.balance, 0.002 ether);
+    }
+
+    function testCannotRetrieveETHIfNotOwner() public {
+        oneOnOne.mintWithETH{value: 0.001 ether}(owner1);
+        oneOnOne.mintWithETH{value: 0.001 ether}(owner2);
+        vm.prank(owner3);
+        vm.expectRevert(Unauthorized.selector);
+        oneOnOne.retrieveETH(owner3);
     }
 }
