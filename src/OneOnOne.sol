@@ -96,10 +96,9 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
         return "1o1";
     }
 
-    // TODO: update CID
     /// @dev Returns the Uniform Resource Identifier (URI) for token `id`.
     function tokenURI(uint256 id) public pure override returns (string memory) {
-        return string.concat("ipfs://<CID>/", LibString.toString(id));
+        return string.concat("https://bafybeigulu7dxyhub5fqfphj22abatnaovo7oq5kvlsuig7m7m7la6ftpa.ipfs.w3s.link/", LibString.toString(id),".json");
     }
 
     /// @dev Returns whether token `id` exists.
