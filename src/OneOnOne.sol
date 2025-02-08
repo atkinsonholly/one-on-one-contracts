@@ -25,6 +25,9 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
     /// @dev Cannot query the token id for the zero address.
     error IdQueryForZeroAddress();
 
+    /// @dev Owner must own a token.
+    error DoesNotOwnToken();
+
     /// @dev Token id counter.
     uint256 public counter;
 
@@ -47,24 +50,13 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
     function mintWithETH(
         address to
     ) external payable nonReentrant {
+        uint256 id;
+        bytes32 ownedIdSlot;
         assembly {
-            // Read balance of `to`.
-            // Refer to ERC721 bits layout.
-            mstore(0x1c, _ERC721_MASTER_SLOT_SEED)
-            mstore(0x00, to)
-            let toBalanceSlot := keccak256(0x0c, 0x1c)
-            let toBalanceSlotPacked := sload(toBalanceSlot)
-
-            // Revert if `balanceOf(to)` is greater than 0.
-            if gt(toBalanceSlotPacked, 0) {
-                mstore(0x00, 0x00cc9b6f) // `AccountBalanceNotZero()`.
-                revert(0x1c, 0x04)
-            }
-
             // Read `counter`.
             // Token `id` to be minted = `counter` + 1.
             let counterSlot := sload(counter.slot)
-            let id := add(counterSlot, 1)
+            id := add(counterSlot, 1)
 
             // Revert if `id` > minting limit.
             if gt(id, _MAX_MINT) {
@@ -78,17 +70,16 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
                 mstore(0x00, 0x583aa026) // `NotEnoughETH`.
                 revert(0x1c, 0x04)
             }
-
-            // TODO: write in assembly
-            // TODO: add tests for idOf(owner)
-            // Update ownedId[to].
-            // let ownedIdSlot := sload(ownedId.slot)
-            // location = keccak256(abi.encode(key, uint256(slot)))
-            // sstore(location, value)
-
+            // Load `ownedId` mapping.
+            ownedIdSlot := ownedId.slot
         }
-        ownedId[to] = counter +=1;
-        _mint(to, counter +=1);
+        bytes32 location = keccak256(abi.encode(to, uint256(ownedIdSlot)));
+        assembly {
+            // Store the `id` owned by `to`.
+            // ownedId[to] = id.
+            sstore(location, id)
+        }
+        _mint(to, counter+=1);
     }
 
     /// @dev Owner can transfer eth balance of contract.
@@ -98,8 +89,6 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
 
     /// @dev Burn token `id`.
     function burn(uint256 id) public {
-        // TODO: test error
-        // TODO: test ownedId
         if (msg.sender != ownerOf(id)) revert Unauthorized();
         ownedId[msg.sender] = 0;
         _burn(msg.sender, id);
@@ -127,33 +116,17 @@ contract OneOnOne is ERC721, Ownable, ReentrancyGuard  {
 
     /// @dev Returns the token `id` owned by a given address.
     function idOf(address owner) public view returns (uint256) {
-        uint256 id;
-        bytes32 ownedIdSlot;
-        assembly {
-            // Revert if the `owner` is the zero address.
-            if iszero(owner) {
-                mstore(0x00, 0x6a5ab061) // `IdQueryForZeroAddress()`.
-                revert(0x1c, 0x04)
-            }
-
-            // Revert if `balanceOf(to)` is 0.
-            mstore(0x1c, _ERC721_MASTER_SLOT_SEED)
-            mstore(0x00, owner)
-            let ownerBalanceSlot := keccak256(0x0c, 0x1c)
-            let ownerBalanceSlotPacked := sload(ownerBalanceSlot)
-            if eq(ownerBalanceSlotPacked, 0) {
-                mstore(0x00, 0x669567ea) // `ZeroBalance()`.
-                revert(0x1c, 0x04)
-            }
-            ownedIdSlot := sload(ownedId.slot)
-        }
-        // TODO: write in assembly
-        bytes32 location = keccak256(abi.encode(owner, uint256(ownedIdSlot)));
-        assembly {
-            id := sload(location)
-
-        }
-        return id;
+        if (owner == address(0)) revert IdQueryForZeroAddress();
+		if (ownedId[owner] == 0) revert DoesNotOwnToken();
+        return ownedId[owner];
     }
 
+    /// @dev Override the hook that is called before any token transfers, including minting and burning.
+    /// @dev This is to ensure that only 1 token can be owned by an address.
+    function _beforeTokenTransfer(address /*from*/, address to, uint256 /*id*/) internal view override {
+        if (to != address(0)) {
+            uint256 bal = balanceOf(to);
+            if (bal > 0) revert AccountBalanceNotZero();
+        }
+    }
 }
