@@ -39,6 +39,7 @@
     "deploy_local": "forge script script/Deploy.s.sol",
     "deploy_testnet_fork": "forge script script/Deploy.s.sol --fork-url base_sepolia",
     "deploy_testnet_simulate": "forge script script/Deploy.s.sol --rpc-url base_sepolia",
-    "deploy_testnet": "forge script script/Deploy.s.sol --rpc-url base_sepolia --broadcast"
+    "deploy_testnet": "forge script script/Deploy.s.sol --rpc-url base_sepolia --broadcast",
+    "deploy_mainnet": "forge script script/Deploy.s.sol --rpc-url base --broadcast"
   }
 }
