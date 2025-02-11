@@ -93,7 +93,6 @@ Primary users are individuals interested in:
 - Blockchain and NFT innovation
 - Digital identity, autonomy and sentience, digital personhood
 - Generally playing around with tech and seeing what happens
-- Current implementation status
 
 ## OneOnOne Authors
 
