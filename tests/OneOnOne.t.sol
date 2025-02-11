@@ -108,6 +108,24 @@ contract OneOnOneTest is OneOnOne, Test {
         oneOnOne.idOf(owner1);
     }
 
+    function testBurnMultiple() public {
+        oneOnOne.mintWithETH{value: price}(owner1);
+        oneOnOne.mintWithETH{value: price}(owner2);
+
+        vm.prank(owner1);
+        oneOnOne.burn(1);
+        assertEq(oneOnOne.balanceOf(owner1), 0);
+        assertFalse(exists(1));
+
+        vm.expectRevert(DoesNotOwnToken.selector);
+        oneOnOne.idOf(owner1);
+
+        vm.prank(owner2);
+        oneOnOne.burn(2);
+        assertEq(oneOnOne.balanceOf(owner2), 0);
+        assertFalse(exists(2));
+    }
+
     function testRetrieveETH() public {
         oneOnOne.mintWithETH{value: price}(owner1);
         oneOnOne.mintWithETH{value: price}(owner2);
