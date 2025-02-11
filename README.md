@@ -94,7 +94,6 @@ Primary users are individuals interested in:
 - Digital identity, autonomy and sentience, digital personhood
 - Generally playing around with tech and seeing what happens
 - Current implementation status
-- All of the features in v0.1 have been implemented
 
 ## OneOnOne Authors
 
